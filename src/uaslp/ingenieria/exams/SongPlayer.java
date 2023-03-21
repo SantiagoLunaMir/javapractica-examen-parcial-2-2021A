@@ -3,29 +3,37 @@ package uaslp.ingenieria.exams;
 import uaslp.ingenieria.exams.instruments.*;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SongPlayer {
-
-    public void play(Song song, Instrumento instrumento) {
-
+    /*
+    private Piano piano = new Piano();
+    private Guitarra guitarra = new Guitarra();
+    private Violin violin = new Violin();
+    private Flauta flauta = new Flauta();
+    private Cello cello = new Cello();
+    */
+    //tomar en cuenta las responsabilidades de cada clase, metodo,etc
+    //una clase y una unica responsabilidad, que serian de alta cohesion y bajo acoplamiento
+    //Baja cohesion es muchas responsabilidades para un metodos, que tanto tienen que ver los metodos dentro de una clase
+    public void play(Song song, InstrumentPlayer instrumentPlayer) {//inyeccion de dependencias, debido a que depende del instrumento y se le pasa por parametro,funciona con interfaces
         Iterator<Nota> notas = song.getSongIterator();
-        Piano piano = new Piano();
-        Guitarra guitarra = new Guitarra();
-        Violin violin = new Violin();
-        Flauta flauta = new Flauta();
-
+        //InstrumentPlayer instrumentPlayer= instrumento.getInstrumentPlayer();
         while (notas.hasNext()) {
             Nota nota = notas.next();
-
-            switch (instrumento) {
-                case PIANO -> piano.presionaTecla(nota);
-                case FLAUTA -> flauta.sopla(nota);
-                case VIOLIN -> violin.toca(nota);
-                case GUITARRA -> guitarra.tocaCuerda(nota);
-                default -> System.out.println("Instrumento no soportado");
-            }
+            instrumentPlayer.playNote(nota);
         }
 
     }
+    /*public InstrumentPlayer getinstrumentPlayer(Instrumento instrumento){
+        return switch (instrumento) {//factory patron que indica que se basa en un solo parametro donde se genera un objeto //el switch permite reurn
+            case PIANO ->piano;
+            case FLAUTA -> flauta;
+            case VIOLIN -> violin;
+            case GUITARRA -> guitarra;
+            case CELLO -> cello;
+        };
+    }*/
 
 }
